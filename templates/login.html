@@ -1,0 +1,13 @@
+{% extends "base.html" %}{% block title %}Sign in · LeaveEase{% endblock %}
+{% block content %}
+<section class="login-wrap">
+  <div class="login-copy"><p class="eyebrow">EMPLOYEE LEAVE MANAGEMENT</p><h1>Time off, <span>made simple.</span></h1><p>Apply for leave, follow approvals and keep your leave balance in one place.</p></div>
+  <form class="panel login-card" method="post">
+    <h2>Welcome back</h2><p class="muted">Sign in to your LeaveEase account</p>
+    <label>Email address<input type="email" name="email" placeholder="you@company.com" required></label>
+    <label>Password<input type="password" name="password" placeholder="Enter password" required></label>
+    <button class="primary full">Sign in</button>
+    <div class="demo"><b>Demo accounts</b><br>Employee: employee@leaveease.demo / employee123<br>Manager: manager@leaveease.demo / manager123<br>Admin: admin@leaveease.demo / admin123</div>
+  </form>
+</section>
+{% endblock %}

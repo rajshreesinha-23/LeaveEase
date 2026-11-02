@@ -1,0 +1,23 @@
+{% extends "base.html" %}{% block title %}Employee dashboard · LeaveEase{% endblock %}
+{% block content %}
+<div class="heading"><div><p class="eyebrow">EMPLOYEE WORKSPACE</p><h1>Hello, {{ session.name.split(' ')[0] }} 👋</h1><p class="muted">Here is your leave overview.</p></div><span class="pill"> {{ session.department }} </span></div>
+<h2 class="section-title">Your leave balances</h2>
+<div class="cards">{% for b in balances %}<div class="stat"><span class="muted">{{ b.type }}</span><strong>{{ b.remaining }} <small>days left</small></strong><div class="progress"><i style="width:{{ (b.used / b.quota * 100) if b.quota else 0 }}%"></i></div><small class="muted">{{ b.used }} used of {{ b.quota }}</small></div>{% endfor %}</div>
+<div class="columns">
+  <section class="panel"><h2>Apply for leave</h2><p class="muted">Submit a request for your manager to review.</p>
+    <form method="post" action="{{ url_for('apply_leave') }}" class="form-grid">
+      <label class="wide">Leave type<select name="leave_type" required>{% for b in balances %}<option>{{ b.type }}</option>{% endfor %}</select></label>
+      <label>Start date<input type="date" name="start_date" min="{{ '' }}" required></label>
+      <label>End date<input type="date" name="end_date" required></label>
+      <label class="wide">Reason<textarea name="reason" rows="3" placeholder="Briefly explain your request..." required></textarea></label>
+      <button class="primary wide">Submit request</button>
+    </form>
+  </section>
+  <section class="panel"><h2>Quick guide</h2><div class="guide"><b>1. Submit</b><p>Choose your leave type and dates.</p></div><div class="guide"><b>2. Manager review</b><p>Your request will appear as Pending.</p></div><div class="guide"><b>3. Track status</b><p>Approved leave updates your balance.</p></div></section>
+</div>
+<section class="panel table-panel"><h2>Recent requests</h2>
+  {% if requests %}<div class="table-scroll"><table><thead><tr><th>Type</th><th>Dates</th><th>Days</th><th>Reason</th><th>Status</th></tr></thead><tbody>
+  {% for r in requests %}<tr><td>{{ r.leave_type }}</td><td>{{ r.start_date }} – {{ r.end_date }}</td><td>{{ r.days }}</td><td>{{ r.reason }}</td><td><span class="status {{ r.status|lower }}">{{ r.status }}</span></td></tr>{% endfor %}
+  </tbody></table></div>{% else %}<p class="muted">No leave requests yet.</p>{% endif %}
+</section>
+{% endblock %}

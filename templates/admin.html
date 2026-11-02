@@ -1,0 +1,10 @@
+{% extends "base.html" %}{% block title %}Admin dashboard · LeaveEase{% endblock %}
+{% block content %}
+<div class="heading"><div><p class="eyebrow">HR ADMIN WORKSPACE</p><h1>Administration</h1><p class="muted">Manage leave policies and view system activity.</p></div><span class="pill">HR Admin</span></div>
+<div class="cards"><div class="stat"><span class="muted">Registered users</span><strong>{{ users|length }}</strong></div><div class="stat"><span class="muted">Total requests</span><strong>{{ total }}</strong></div><div class="stat"><span class="muted">Pending requests</span><strong>{{ pending }}</strong></div></div>
+<div class="columns">
+<section class="panel"><h2>Add department policy</h2><form method="post" action="{{ url_for('add_policy') }}" class="form-grid"><label class="wide">Department<input name="department" placeholder="e.g. Engineering" required></label><label class="wide">Leave type<input name="leave_type" placeholder="e.g. Annual Leave" required></label><label class="wide">Annual quota (days)<input type="number" name="quota" min="0" required></label><button class="primary wide">Add policy</button></form></section>
+<section class="panel"><h2>Current policies</h2><div class="table-scroll"><table><thead><tr><th>Department</th><th>Leave type</th><th>Quota</th></tr></thead><tbody>{% for p in policies %}<tr><td>{{ p.department }}</td><td>{{ p.leave_type }}</td><td>{{ p.annual_quota }} days</td></tr>{% endfor %}</tbody></table></div></section>
+</div>
+<section class="panel table-panel"><h2>Users</h2><div class="table-scroll"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Department</th></tr></thead><tbody>{% for u in users %}<tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ u.role|title }}</td><td>{{ u.department }}</td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}

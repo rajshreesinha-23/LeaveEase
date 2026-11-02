@@ -1,0 +1,9 @@
+{% extends "base.html" %}{% block title %}Manager dashboard · LeaveEase{% endblock %}
+{% block content %}
+<div class="heading"><div><p class="eyebrow">MANAGER WORKSPACE</p><h1>Team leave requests</h1><p class="muted">Review requests from your department.</p></div><span class="pill">{{ session.department }}</span></div>
+<section class="panel table-panel"><h2>Requests</h2>
+{% if requests %}<div class="table-scroll"><table><thead><tr><th>Employee</th><th>Leave type</th><th>Dates</th><th>Days</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for r in requests %}<tr><td>{{ r.employee_name }}</td><td>{{ r.leave_type }}</td><td>{{ r.start_date }} – {{ r.end_date }}</td><td>{{ r.days }}</td><td>{{ r.reason }}</td><td><span class="status {{ r.status|lower }}">{{ r.status }}</span></td><td>{% if r.status == 'Pending' %}<div class="actions"><form method="post" action="{{ url_for('decision',request_id=r.id,decision='Approved') }}"><button class="approve">Approve</button></form><form method="post" action="{{ url_for('decision',request_id=r.id,decision='Rejected') }}"><button class="reject">Reject</button></form></div>{% else %}—{% endif %}</td></tr>{% endfor %}
+</tbody></table></div>{% else %}<p class="muted">No requests have been submitted yet.</p>{% endif %}
+</section>
+{% endblock %}
